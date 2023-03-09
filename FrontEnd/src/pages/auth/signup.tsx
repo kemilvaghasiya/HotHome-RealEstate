@@ -95,8 +95,8 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
+// import FormControlLabel from '@mui/material/FormControlLabel';
+// import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -104,15 +104,18 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { signIn } from 'next-auth/react';
 import { useSnackbar } from 'notistack';
+import axios from 'axios';
+import { isStatusOk } from '@/api/utils';
+import { useRouter } from 'next/router';
 
 
 const theme = createTheme();
 
 export default function SignUp() {
-    const { enqueueSnackbar } = useSnackbar()
-    const handleSubmit = (event: any) => {
+    const { enqueueSnackbar } = useSnackbar();
+    const router=useRouter();
+    const handleSubmit = async (event: any) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         if (data.get('password') === data.get('confirmpassword')) {
@@ -123,9 +126,15 @@ export default function SignUp() {
                 phone: data.get('phone')
             }
             console.log(reqBody);
-            const formToReset: any = document.getElementById('form');
-            formToReset.reset();
 
+            const res:any = await axios.post('http://localhost:5000/signup',reqBody)
+            if (isStatusOk(res.status) && res){
+                enqueueSnackbar('Registered Successfully',{variant:'success'});
+                router.push('/auth/signin');
+            }
+            else{
+                enqueueSnackbar(res?.error?.message,{variant:'error'})
+            }
         }
         else {
             enqueueSnackbar('password and confirm password must be same', { variant: 'warning' })

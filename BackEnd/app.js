@@ -7,8 +7,16 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+const enableCors = (req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+};
+app.use(enableCors);
+
 // Connect to the database
-mongoose.connect('mongodb://localhost/real-state', {
+mongoose.connect('mongodb://localhost/real-estate', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
@@ -62,7 +70,7 @@ app.post('/login', async (req, res) => {
     }
     // Create a JWT token
     const token = jwt.sign({ email: existingUser.email, id: existingUser._id }, 'mysecret', { expiresIn: '12h' });
-    res.status(200).json({ token });
+    res.status(200).json({ user:existingUser,token });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

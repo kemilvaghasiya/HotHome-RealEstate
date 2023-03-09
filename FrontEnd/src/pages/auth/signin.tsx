@@ -1,15 +1,18 @@
 import { NextPage } from "next";
 import { signIn } from "next-auth/react";
-import { redirect } from "next/dist/server/api-utils";
 import Link from '@mui/material/Link';
-import { FormEventHandler, useState } from "react";
+import { FormEventHandler } from "react";
 import { Avatar, Box, Button, Container, CssBaseline, Grid, TextField, Typography } from "@mui/material";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { isStatusOk } from "@/api/utils";
+import { useSnackbar } from "notistack";
+import { useRouter } from "next/router";
 
 interface Props { }
 
 const SignIn: NextPage = (props): JSX.Element => {
-    const [userInfo, setUserInfo] = useState({ email: "", password: "" });
+    const {enqueueSnackbar}=useSnackbar();
+    const router=useRouter();
     const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
         // validate your userinfo
         e.preventDefault();
@@ -21,12 +24,18 @@ const SignIn: NextPage = (props): JSX.Element => {
         // console.log(reqBody)
 
         const res = await signIn("credentials", {
-             email: userInfo.email,
-            password: userInfo.password,
-            redirect: true,
+            email: reqBody.email,
+            password: reqBody.password,
+            redirect:  false,
         });
 
-        // console.log(res);
+        if(isStatusOk(res?.status)){
+            enqueueSnackbar('Logged In successfully',{variant:'success'})
+            router.push('/');
+        }
+        else{
+            enqueueSnackbar('Invalid Credentials',{variant:'error'})
+        }
     };
     return (
         <div className='authbackground'>
