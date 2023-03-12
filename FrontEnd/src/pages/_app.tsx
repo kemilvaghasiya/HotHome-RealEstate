@@ -29,7 +29,7 @@ export default function App({ Component, pageProps }: AppProps) {
         }}
       >
         {/* <Navbar /> */}
-        <Component {...pageProps} />
+        <Component  {...pageProps} />
       </SnackbarProvider>
     </SessionProvider>
   )

@@ -17,6 +17,29 @@ const Navbar = dynamic(() => import('../components/navbar'), {
       <LinearProgress />
     </div>)
 });
+const HomePage = dynamic(() => import('../components/modules/Home'), {
+  ssr: false,
+  loading: () => (
+    <div
+      style={{
+        width: '100%',
+      }}
+    >
+      <LinearProgress />
+    </div>)
+});
+
+const Footer = dynamic(() => import('../components/footer'), {
+  ssr: false,
+  loading: () => (
+    <div
+      style={{
+        width: '100%',
+      }}
+    >
+      <LinearProgress />
+    </div>)
+});
 
 export default function Home() {
   return (
@@ -27,9 +50,10 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div  className={styles.main}>
+      <div className={styles.main}>
         <Navbar />
-       Welcome
+        <HomePage />
+        {/* <Footer /> */}
       </div>
     </>
   )
