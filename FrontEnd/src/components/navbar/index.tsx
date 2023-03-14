@@ -17,21 +17,44 @@ import useStyles from './styles';
 import { useState } from 'react';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import { observer } from 'mobx-react-lite';
+import useStore from '../store/usestore';
+import clsx from 'clsx';
 
 
 
 const pages = ['Home', 'Our Story', 'Services','Get in Touch',];
+
+const pages1=[
+    {
+        label:'Home',
+        path:'/'
+    },
+    {
+        label: 'Our Story',
+        path: '/aboutus'
+    },
+    {
+        label: 'Services',
+        path: '/project'
+    },
+    {
+        label: 'Get in Touch',
+        path: '/contactus'
+    }
+
+]
 // const settings = [ 'Logout'];
 
 function Navbar() {
     const { classes } = useStyles();
     const router = useRouter();
     const session:any=useSession();
-    console.log('test session', session)
+    const {rootStore:{navBarStore:{getTabSelected,setTabSelected}}}=useStore();
     const [auth, setAuth] = useState(false);
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-
+    console.log('test', router.pathname)
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
     };
@@ -39,7 +62,9 @@ function Navbar() {
         setAnchorElUser(event.currentTarget);
     };
 
-    const handleCloseNavMenu = () => {
+    const handleCloseNavMenu = (page:any) => {
+        setTabSelected(page.label)
+        router.push(page.path)
         setAnchorElNav(null);
     };
 
@@ -123,9 +148,11 @@ function Navbar() {
                                 display: { xs: 'block', md: 'none' },
                             }}
                         >
-                            {pages.map((page) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">{page}</Typography>
+                            {pages1.map((page) => (
+                                <MenuItem key={page.label} onClick={()=>handleCloseNavMenu(page)}>
+                                    <Typography textAlign="center" className={clsx({
+                                        [classes.selctedTab]:router.pathname===`${page.path}`
+                                    })}>{page.label}</Typography>
                                 </MenuItem>
                             ))}
                         </Menu>
@@ -150,13 +177,16 @@ function Navbar() {
                         HotHome Inc.
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex',justifyContent:'center' } }}>
-                        {pages.map((page) => (
+                        {pages1.map((page) => (
                             <Button
-                                key={page}
-                                onClick={handleCloseNavMenu}
+                                key={page.label}
+                                onClick={()=>handleCloseNavMenu(page)}
                                 sx={{ my: 2, color: 'white', display: 'block' }}
+                                className={clsx({
+                                    [classes.selctedTab]: router.pathname === `${page.path}`
+                                })}
                             >
-                                {page}
+                                {page.label}
                             </Button>
                         ))}
                     </Box>
@@ -211,4 +241,4 @@ function Navbar() {
         </AppBar>
     );
 }
-export default Navbar;
+export default observer(Navbar);

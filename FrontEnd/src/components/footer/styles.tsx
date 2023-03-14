@@ -16,6 +16,7 @@ const useStyles = makeStyles()(() => (
                 display:'flex',
                 flexDirection:'column',
                 height: '1000px',
+                alignItems:'center'
             }
         },
         tag:{

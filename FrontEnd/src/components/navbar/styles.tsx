@@ -28,6 +28,9 @@ const useStyles = makeStyles()(() => (
         midnav:{
             display:'flex',
             justifyContent:'center'
+        },
+        selctedTab:{
+            color:'blue'
         }
     }));
 
