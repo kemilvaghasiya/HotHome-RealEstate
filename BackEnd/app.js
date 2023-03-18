@@ -31,6 +31,14 @@ const userSchema = new mongoose.Schema({
   phone: String
 });
 
+const propertySchema = new mongoose.Schema({
+  propertyName: String,
+  address: String,
+  noOfUnits: String,
+  floorPlan: String,
+  pincode: Number,
+});
+
 // Create a model using the schema
 const User = mongoose.model('User', userSchema);
 
@@ -75,6 +83,71 @@ app.post('/login', async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
+//Register property
+app.post("/register-properties", async (req, res) => {
+  const propertyData = req.body;
+  console.log(propertyData);
+  if (!propertyData.propertyName) {
+    return res.status(400).json({ message: "propertyName is required." });
+  }
+  if (!propertyData.address) {
+    return res.status(400).json({ message: "address is required." });
+  }
+  if (!propertyData.noOfUnits) {
+    return res.status(400).json({ message: "noOfUnits is required." });
+  }
+  if (!propertyData.floorPlan) {
+    return res.status(400).json({ message: "floorPlan is required." });
+  }
+  if (!propertyData.pincode && Number(propertyData.pincode)) {
+    return res.status(400).json({ message: "pincode is invalid." });
+  }
+
+  const property = new Property(propertyData);
+  await property.save();
+  res.send(property);
+});
+
+//get all properties
+app.get("/get-all-properties", async (req, res) => {
+  try {
+    const properties = await Property.find({});
+    res.send(properties);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: "Internal server error." });
+  }
+});
+
+//update proeperty by id
+app.put("/update-property/:id", async (req, res) => {
+  if (!req.params.id) {
+    return res.status(400).json({ message: "id params is required." });
+  }
+  try {
+    const property = await Property.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+    res.send(property);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: "Internal server error." });
+  }
+});
+
+//delete property by id
+app.delete('/delete-property/:id', async (req, res) => {
+  try {
+    const property = await Property.findByIdAndDelete(req.params.id);
+    if (!property) {
+      return res.status(404).send();
+    }
+    res.send(property);
+  } catch (err) {
+    return res.status(500).json({ message: "Internal server error." });;
+  }
+})
 
 // Start the server
 app.listen(5000, () => {
