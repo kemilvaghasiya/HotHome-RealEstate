@@ -36,7 +36,7 @@ const pages1=[
     },
     {
         label: 'Services',
-        path: '/project'
+        path: '/projects'
     },
     {
         label: 'Get in Touch',

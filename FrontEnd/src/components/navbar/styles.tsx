@@ -30,7 +30,7 @@ const useStyles = makeStyles()(() => (
             justifyContent:'center'
         },
         selctedTab:{
-            color:'#1976d2'
+            color:'black'
         }
     }));
 
