@@ -165,6 +165,18 @@ app.post("/register-properties", upload.any("images"), async (req, res) => {
   res.send(property);
 });
 
+app.get("/get-property/:id",async(req,res)=> {
+  const id = req.params.id;
+  try {
+    const property = await Property.find({_id: id});
+    res.send(property);
+  } catch(err) {
+    console.log(err)
+    return res.status(500).json({ message: "Internal server error." });
+  }
+  
+})
+
 //get property image
 app.get("/get-property-images/:id", async (req, res) => {
   try {
