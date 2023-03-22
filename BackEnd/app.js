@@ -49,6 +49,7 @@ const propertySchema = new mongoose.Schema({
   floorPlan: String,
   pincode: Number,
   price: Number,
+  noOfBedrooms: Number,
   image: [{ type: Schema.Types.ObjectId, ref: "Image" }],
 });
 
@@ -134,6 +135,9 @@ app.post("/register-properties", upload.any("images"), async (req, res) => {
   }
   if (!propertyData.price && typeof propertyData.price != Number) {
     return res.status(400).json({ message: "price is required." });
+  }
+  if (!propertyData.noOfBedrooms && typeof propertyData.noOfBedrooms != Number) {
+    return res.status(400).json({ message: "noOfBedrooms is required." });
   }
   const property = new Property(propertyData);
   await property.save();
