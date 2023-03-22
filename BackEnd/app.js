@@ -174,7 +174,6 @@ app.get("/get-property/:id",async(req,res)=> {
     console.log(err)
     return res.status(500).json({ message: "Internal server error." });
   }
-  
 })
 
 //get property image
@@ -182,8 +181,11 @@ app.get("/get-property-images/:id", async (req, res) => {
   try {
     const id = req.params.id;
     const [image] = await Image.find({ _id: id });
-    res.contentType(image.fileType);
-    res.send(image.imageData);
+
+    const buffer = Buffer.from(image.imageData);
+    const base64Image = buffer.toString('base64');
+    const publicUrl = `data:image/png;base64,${base64Image}`;
+    res.send(`<img src="${publicUrl}" alt="My Image" />`);
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: "Internal server error." });
