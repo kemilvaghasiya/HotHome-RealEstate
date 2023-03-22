@@ -7,33 +7,53 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import useStyles from '../styles';
 import HotelIcon from '@mui/icons-material/Hotel';
+import { useRouter } from 'next/router';
+import axios from 'axios';
+import { useSnackbar } from 'notistack';
 
-export default function ProjectCard() {
+export default function ProjectCard({data}:any) {
     const {classes}=useStyles();
+    const router=useRouter();
+    const [imageData,setImageData]=React.useState('')
+    const { enqueueSnackbar } = useSnackbar();
+    React.useEffect(()=>{
+        axios.get(`http://localhost:5000/get-property-images/${data.image[0]}`, {
+            
+        })
+            .then(response =>{
+            //  console.log('test res',response.data);
+                const imageBlob = new Blob([response.data.imageData], { type: 'image/jpeg' });
+                // console.log('test image', URL.createObjectURL(imageBlob))
+                setImageData(URL.createObjectURL(imageBlob))
+        })
+            .catch((error) => enqueueSnackbar((error), { variant: 'error' }))
+
+    },[])
     return (
         <Card sx={{ maxWidth: 345 }} style={{ margin: 20, borderRadius: 10, boxShadow:'0px 0px 8px rgba(0, 0, 0, 0.4)'}}>
             <CardMedia
                 component="img"
-                alt="green iguana"
+                alt="image"
                 height="250"
                 image="images/project/image1.jpg"
             />
+            {/* <img src={imageData} alt="API Response Image" /> */}
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div" className={classes.cardTitle}>
-                    Prestige View Park
+                    {data.propertyName}
                 </Typography>
 
                 <Typography variant='body1' component="div" className={classes.cardLocation}>
-                    Prestige View Park -locatin
+                    {data.address}
                 </Typography>
                 <Typography variant="body2" color="text.secondary" className={classes.info}>
                     < HotelIcon />
-                    <span style={{marginLeft:10,marginTop:3}}>3,4 BHK Aprtment</span>
+                    <span style={{ marginLeft: 10, marginTop: 3 }}>{`${data.noOfBedrooms} BHK Aprtment`}</span>
                 </Typography>
             </CardContent>
             <CardActions>
                 {/* <Button size="small">Share</Button> */}
-                <Button size="small">View In Detail</Button>
+                <Button size="small" onClick={()=>router.push(`/projects/${1}`)}>View In Detail</Button>
             </CardActions>
         </Card>
     );

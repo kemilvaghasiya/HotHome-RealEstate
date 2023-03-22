@@ -170,8 +170,8 @@ app.get("/get-property-images/:id", async (req, res) => {
   try {
     const id = req.params.id;
     const [image] = await Image.find({ _id: id });
-    res.contentType(image.fileType);
-    res.send(image.imageData);
+    // res.contentType(image.fileType);
+    res.send(image);
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: "Internal server error." });
