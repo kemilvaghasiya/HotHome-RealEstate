@@ -54,7 +54,7 @@ function Navbar() {
     const [auth, setAuth] = useState(false);
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-    console.log('test', router.pathname)
+    // console.log('test', router.pathname)
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
     };

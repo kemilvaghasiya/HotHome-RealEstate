@@ -125,7 +125,7 @@ export default function SignUp() {
                 password: data.get('password'),
                 phone: data.get('phone')
             }
-            console.log(reqBody);
+            // console.log(reqBody);
 
             const res:any = await axios.post('http://localhost:5000/signup',reqBody)
             if (isStatusOk(res.status) && res){

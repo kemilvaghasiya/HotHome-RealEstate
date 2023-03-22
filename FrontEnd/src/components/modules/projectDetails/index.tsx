@@ -19,15 +19,15 @@ const ProjectHighlights = dynamic(() => import('./projectheilights'), {
         </div>)
 });
 
-const ProjectDetailsWrapper = () => {
+const ProjectDetailsWrapper = ({data}:any) => {
     const {classes}=useStyles();
   return (
     <div className={classes.root}>
-          <ProjectHighlights />
-          < AboutProject />
-          < Amenities />
-          < ProjectPrice />
-          < Gallery />
+          <ProjectHighlights data={data} />
+          < AboutProject data={data} />
+          < Amenities data={data} />
+          < ProjectPrice data={data} />
+          < Gallery data={data} />
     </div>
   )
 }

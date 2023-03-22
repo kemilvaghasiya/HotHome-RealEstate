@@ -12,7 +12,7 @@ const List = [
   }
 ]
 
-const ProjectPrice = () => {
+const ProjectPrice = ({data}:any) => {
     const {classes}=useStyles();
   return (
     <div className={classes.root}>
@@ -35,7 +35,7 @@ const ProjectPrice = () => {
       <span style={{ marginTop: 20, color: '#B89E69' }}>HOME LOAN EMI
         CALCULATOR</span>
 
-      <InputSlider />
+      <InputSlider data={data}/>
     </div>
   )
 }

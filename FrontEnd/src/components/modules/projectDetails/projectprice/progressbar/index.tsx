@@ -15,7 +15,7 @@ const interestAmount=(amount:any,rate:any,year:any):number=>{
     return (amount*rate*year)/100;
 }
 
-export default function InputSlider() {
+export default function InputSlider({data}:any) {
     const [value1, setValue1] = React.useState<number | string | Array<number | string>>(
         100,
     );
@@ -98,7 +98,7 @@ export default function InputSlider() {
                                 aria-labelledby="input-slider"
                                 style={{ color: '#B89E69' }}
                                 min={0}
-                                max={1000}
+                                max={data.price}
                             />
                         </Grid>
                         <Grid item>

@@ -10,7 +10,7 @@ const useStyles = makeStyles()(() => (
             boxShadow: '0px 0px 8px rgba(0, 0, 0, 0.4)',
             margin: 20,
             padding: 20,
-            // background: 'white',
+            background: 'white',
             // height: 300,
             color: 'black',
             borderRadius: 5

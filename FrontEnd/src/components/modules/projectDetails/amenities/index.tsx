@@ -2,12 +2,12 @@ import React from 'react'
 import useStyles from './styles';
 const List = ['Admin Office', 'Badminton Court', 'Billiards', 'Childrens Play Area', 'Coffee Shop', 'Gymnasium', 'Multipurpose Hall', 'Squash Court', 'Swimming Pool', 'Tennis Court']
 
-const Amenities = () => {
+const Amenities = ({data}:any) => {
     const { classes } = useStyles();
     return (
         <div className={classes.root}>
             <span className={classes.title}>
-                Amenities
+                Amenities 
             </span>
             <div className={classes.list}>
                 {

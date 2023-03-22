@@ -185,7 +185,7 @@ app.get("/get-property-images/:id", async (req, res) => {
     const buffer = Buffer.from(image.imageData);
     const base64Image = buffer.toString('base64');
     const publicUrl = `data:image/png;base64,${base64Image}`;
-    res.send(`<img src="${publicUrl}" alt="My Image" />`);
+    res.send(publicUrl);
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: "Internal server error." });

@@ -1,9 +1,12 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router'
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from '@/styles/Home.module.css';
 import { LinearProgress } from '@mui/material';
 import dynamic from 'next/dynamic';
+import axios from 'axios';
+import { useSnackbar } from 'notistack';
+import DynamicComponentLoader from '@/components/common/loader/dynemicComploader';
 
 const Navbar = dynamic(() => import('../../components/navbar'), {
   ssr: false,
@@ -32,7 +35,16 @@ const ProjectDetailsWrapper = dynamic(() => import('../../components/modules/pro
 const ProjectDetails = () => {
     const router=useRouter();
     const id=router.query.projectId;
-    console.log('test id',id)
+    const [projectDetailsData,setProjectDetailsData]=useState(null);
+    // console.log('test id',id)
+  const { enqueueSnackbar } = useSnackbar();
+    useEffect(()=>{
+      if(id){
+        axios.get(`http://localhost:5000/get-property/${id}`)
+          .then(res => setProjectDetailsData(res.data))
+           .catch((error:any) => enqueueSnackbar((error.message), { variant: 'error' }))
+      }
+    },[id])
   return (
     <>
       <Head>
@@ -43,7 +55,7 @@ const ProjectDetails = () => {
       </Head>
       <div className={styles.main}>
         <Navbar />
-        < ProjectDetailsWrapper />
+        {projectDetailsData ? < ProjectDetailsWrapper data={projectDetailsData[0]} />:<DynamicComponentLoader/ >}
       </div>
     </>
   )

@@ -4,7 +4,7 @@ import useStyles from './styles';
 const List=[
   {
     label:'Development Size',
-    value:'28.5 Acres'
+    value:'floorPlan'
   },
   {
     label: 'Project Type',
@@ -20,7 +20,7 @@ const List=[
   }
 ]
 
-const ProjectHighlights = () => {
+const ProjectHighlights = ({data}:any) => {
     const {classes}=useStyles();
   return (
     <div className={classes.root}>
@@ -28,16 +28,29 @@ const ProjectHighlights = () => {
         Project Highlights
         </span>
         <div style={{marginTop:20}}>
-        {
+        {/* {
           List.map((item)=>{
             return(
-            <div className={classes.item}>
-              <span className={classes.label}>{item.label}</span>
-              <span className={classes.value}>{item.value}</span>
-              </div>
+           
             )
           })
-        }
+        } */}
+        <div className={classes.item}>
+          <span className={classes.label}>Development Size</span>
+          <span className={classes.value}>{data.floorPlan} Acres</span>
+        </div>
+        <div className={classes.item}>
+          <span className={classes.label}>Project Type</span>
+          <span className={classes.value}>Apartment</span>
+        </div>
+        <div className={classes.item}>
+          <span className={classes.label}>Total Units</span>
+          <span className={classes.value}>{data.noOfUnits}</span>
+        </div>
+        <div className={classes.item}>
+          <span className={classes.label}>Bedrooms</span>
+          <span className={classes.value}>{data.noOfBedrooms}</span>
+        </div>
         </div>
     </div>
   )

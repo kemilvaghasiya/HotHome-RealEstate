@@ -18,13 +18,11 @@ export default function ProjectCard({data}:any) {
     const { enqueueSnackbar } = useSnackbar();
     React.useEffect(()=>{
         axios.get(`http://localhost:5000/get-property-images/${data.image[0]}`, {
-            
         })
             .then(response =>{
-            //  console.log('test res',response.data);
                 const imageBlob = new Blob([response.data.imageData], { type: 'image/jpeg' });
                 // console.log('test image', URL.createObjectURL(imageBlob))
-                setImageData(URL.createObjectURL(imageBlob))
+                setImageData(response.data)
         })
             .catch((error) => enqueueSnackbar((error), { variant: 'error' }))
 
@@ -35,8 +33,9 @@ export default function ProjectCard({data}:any) {
                 component="img"
                 alt="image"
                 height="250"
-                image="images/project/image1.jpg"
+                image={`${imageData}`}
             />
+            
             {/* <img src={imageData} alt="API Response Image" /> */}
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div" className={classes.cardTitle}>
@@ -53,7 +52,7 @@ export default function ProjectCard({data}:any) {
             </CardContent>
             <CardActions>
                 {/* <Button size="small">Share</Button> */}
-                <Button size="small" onClick={()=>router.push(`/projects/${1}`)}>View In Detail</Button>
+                <Button size="small" onClick={() => router.push(`/projects/${data?._id}`)}>View In Detail</Button>
             </CardActions>
         </Card>
     );
