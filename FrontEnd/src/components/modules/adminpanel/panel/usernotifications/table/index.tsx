@@ -11,6 +11,7 @@ import useStyles from './styles';
 import DynamicComponentLoader from '@/components/common/loader/dynemicComploader';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useRouter } from 'next/router';
 
 function EnhancedTableToolbar(props: any) {
     const { title } = props;
@@ -40,7 +41,7 @@ function EnhancedTableToolbar(props: any) {
 
 export default function BasicTable({ data, Title }: any) {
     const {classes} = useStyles();
-    console.log('test data',data)
+    const router=useRouter();
     return (
         <div className={classes.root}>
             {/* <span>{Title}</span> */}
@@ -49,13 +50,11 @@ export default function BasicTable({ data, Title }: any) {
                 <Table sx={{ minWidth: 300 }} size="medium" aria-label="simple table">
                     <TableHead className={classes.header}>
                         <TableRow>
-                            <TableCell>Property Name</TableCell>
-                            <TableCell align="right">Address</TableCell>
-                            <TableCell align="right">PinCode</TableCell>
-                            <TableCell align="right">Price</TableCell>
-                            <TableCell align="right">No of Beds</TableCell>
-                            <TableCell align="right">FloorPlan</TableCell>
-                            <TableCell align="right">Action</TableCell>
+                            <TableCell>Name</TableCell>
+                            <TableCell align="right">Email</TableCell>
+                            <TableCell align="right">Mobile No.</TableCell>
+                            <TableCell align="right">Property</TableCell>
+                            <TableCell align="right">Inquiry Date</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -65,18 +64,12 @@ export default function BasicTable({ data, Title }: any) {
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <TableCell component="th" scope="row">
-                                    {row.propertyName}
+                                    {row.name}
                                 </TableCell>
-                                <TableCell align="right" >{row.address }</TableCell>
-                                <TableCell align="right">{row.pincode}</TableCell>
-                                <TableCell align="right">{row.price}$</TableCell>
-                                <TableCell align="right">{row.noOfBedrooms}BHK</TableCell>
-                                <TableCell align="right">{row.floorPlan }</TableCell>
-                                <TableCell align="right">
-                                    <EditIcon className={classes.editIcon}/>
-                                    < DeleteIcon className={classes.deleteIcon}/>
-
-                                </TableCell>
+                                <TableCell align="right" >{row.email }</TableCell>
+                                <TableCell align="right">{row.phone}</TableCell>
+                                <TableCell align="right" onClick={() => router.push(`/projects/${row.propertyId}`)} className={classes.link}>{row.propertyName}</TableCell>
+                                <TableCell align="right">{new Date(row.time).toDateString()}</TableCell>
                             </TableRow>
                             
                         )) : <DynamicComponentLoader />}

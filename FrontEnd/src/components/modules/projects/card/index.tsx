@@ -49,6 +49,10 @@ export default function ProjectCard({data}:any) {
                     < HotelIcon />
                     <span style={{ marginLeft: 10, marginTop: 3 }}>{`${data.noOfBedrooms} BHK Aprtment`}</span>
                 </Typography>
+                <Typography variant="body2" color="text.secondary" className={classes.info}>
+                    <span style={{fontWeight:500}}>Price -</span>
+                    <span style={{ marginLeft: 10 }}>{`${data.price} $`}</span>
+                </Typography>
             </CardContent>
             <CardActions>
                 {/* <Button size="small">Share</Button> */}

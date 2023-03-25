@@ -11,7 +11,7 @@ const useStyles = makeStyles()(() => (
             margin:20,
             padding:20,
             background: 'white',
-            height:300,
+            height:320,
             color: 'black',
             borderRadius:5
         },

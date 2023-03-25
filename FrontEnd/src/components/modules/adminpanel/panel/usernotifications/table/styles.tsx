@@ -16,17 +16,11 @@ const useStyles = makeStyles()(() => (
         title: {
             minHeight: 25,
         },
-        editIcon:{
+        link:{
+            color:'blue',
+            textDecoration:'underline',
             '&:hover':{
-                cursor:'pointer',
-                color:'rgb(25, 118, 210)'
-            }
-        },
-        deleteIcon:{
-            marginLeft:10,
-            '&:hover': {
-                cursor: 'pointer',
-                color:'red'
+                cursor:'pointer'
             }
         }
     }));

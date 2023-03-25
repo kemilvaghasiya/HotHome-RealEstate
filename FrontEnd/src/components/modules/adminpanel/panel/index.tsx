@@ -4,6 +4,7 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import PropertyDetails from './property';
+import UserNotificationDetails from './usernotifications';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -65,7 +66,7 @@ export default function VerticalTabs() {
                 < PropertyDetails />
             </TabPanel>
             <TabPanel value={value} index={1}>
-                User Notifications
+                < UserNotificationDetails />
             </TabPanel>
         </Box>
     );
