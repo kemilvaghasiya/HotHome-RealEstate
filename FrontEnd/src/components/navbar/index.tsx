@@ -39,6 +39,10 @@ const pages1=[
         path: '/projects'
     },
     {
+        label: 'Admin Panel',
+        path: '/adminpanel'
+    },
+    {
         label: 'Get in Touch',
         path: '/contactus'
     }

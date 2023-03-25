@@ -14,7 +14,7 @@ const ProjectWrapper = () => {
     useEffect(()=>{
         axios.get('http://localhost:5000/get-all-properties')
         .then(res=>setProjectData(res.data))
-            .catch((error) => enqueueSnackbar((error), { variant: 'error' }))
+            .catch((error) => enqueueSnackbar((error.message), { variant: 'error' }))
     },[])
     return (
         <div className={classes.root}>
