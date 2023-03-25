@@ -7,6 +7,7 @@ var bodyParser = require("body-parser");
 var fs = require("fs");
 const os = require("os");
 var multer = require("multer");
+const { Timestamp } = require("mongodb");
 var storage = multer.memoryStorage();
 var upload_storage = multer({ storage: storage });
 var upload = multer({ storage });
@@ -40,7 +41,17 @@ const userSchema = new mongoose.Schema({
   email: String,
   password: String,
   phone: String,
+  userRole: String
 });
+
+const notifiedUserSchema = new mongoose.Schema({
+  name: String,
+  email: String,
+  phone: String,
+  propertyName: String,
+  propertyId: String,
+  time: String
+})
 
 const propertySchema = new mongoose.Schema({
   propertyName: String,
@@ -65,9 +76,11 @@ const imageSchema = new mongoose.Schema({
 const User = mongoose.model("User", userSchema);
 const Property = mongoose.model("Property", propertySchema);
 const Image = mongoose.model("Image", imageSchema);
+const UserNotification = mongoose.model("UserNotification", notifiedUserSchema)
 // Define a route for user signup
 app.post("/signup", async (req, res) => {
   const { name, email, password, phone } = req.body;
+  const userRole = 'client'
   try {
     // Check if user already exists
     const existingUser = await User.findOne({ email });
@@ -76,7 +89,7 @@ app.post("/signup", async (req, res) => {
     }
     // Create a new user
     const hashedPassword = await bcrypt.hash(password, 12);
-    const newUser = new User({ name, email, password: hashedPassword, phone });
+    const newUser = new User({ name, email, password: hashedPassword, phone, userRole });
     await newUser.save();
     res.status(201).json({ message: "User created successfully" });
   } catch (err) {
@@ -139,6 +152,8 @@ app.post("/register-properties", upload.any("images"), async (req, res) => {
   if (!propertyData.noOfBedrooms && typeof propertyData.noOfBedrooms != Number) {
     return res.status(400).json({ message: "noOfBedrooms is required." });
   }
+
+  try {
   const property = new Property(propertyData);
   await property.save();
 
@@ -163,6 +178,9 @@ app.post("/register-properties", upload.any("images"), async (req, res) => {
   );
 
   res.send(property);
+  } catch(err) {
+    console.log(err)
+  }
 });
 
 app.get("/get-property/:id",async(req,res)=> {
@@ -231,6 +249,58 @@ app.delete("/delete-property/:id", async (req, res) => {
     return res.status(500).json({ message: "Internal server error." });
   }
 });
+
+//delete image
+app.delete("/delete-image/:id", async (req, res) => {
+  try {
+    const image = await Image.findByIdAndDelete(req.params.id);
+    if (!image) {
+      return res.status(404).send();
+    }
+    res.send(property);
+  } catch (err) {
+    return res.status(500).json({ message: "Internal server error." });
+  }
+});
+
+app.post("/add-userNotification", async (req, res) => {
+  const userData = req.body;
+  if (!userData.name) {
+    return res.status(400).json({ message: "name is required." });
+  }
+  if (!userData.email) {
+    return res.status(400).json({ message: "email is required." });
+  }
+  if (!userData.phone) {
+    return res.status(400).json({ message: "phone is required." });
+  }
+  if (!userData.propertyName) {
+    return res.status(400).json({ message: "propertyName is required." });
+  }
+  if (!userData.propertyId) {
+    return res.status(400).json({ message: "propertyId is required." });
+  }
+
+  try {
+    userData.time = new Date()
+    const userNotification = new UserNotification(userData);
+    await userNotification.save();
+    res.send(userNotification);
+  } catch (err) {
+    console.log(err)
+  }
+  
+})
+
+app.get("/get-userNotification", async (req,res) => {
+  try {
+    const userData = await UserNotification.find({});
+    res.send(userData);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: "Internal server error." });
+  }
+})
 
 // Start the server
 app.listen(5000, () => {
