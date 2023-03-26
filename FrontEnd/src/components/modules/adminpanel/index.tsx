@@ -9,7 +9,7 @@ const AdminPanel = () => {
     const session: any = useSession();
     const {enqueueSnackbar}=useSnackbar();
     const router=useRouter();
-    console.log('test ',session)
+    // console.log('test ',session)
     if (session.status=== 'loading'){
         return <></>
     }

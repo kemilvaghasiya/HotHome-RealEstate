@@ -84,14 +84,17 @@ function Item(props: any) {
     const [imageURL,setImageURL]=useState(null);
     const { enqueueSnackbar } = useSnackbar();
     React.useEffect(() => {
-        axios.get(`http://localhost:5000/get-property-images/${props.item}`, {
-        })
-            .then(response => {
-                // const imageBlob = new Blob([response.data.imageData], { type: 'image/jpeg' });
-                // console.log('test image', URL.createObjectURL(imageBlob))
-                setImageURL(response.data)
+        if(props.item){
+
+            axios.get(`http://localhost:5000/get-property-images/${props.item}`, {
             })
-            .catch((error) => enqueueSnackbar((error), { variant: 'error' }))
+                .then(response => {
+                    // const imageBlob = new Blob([response.data.imageData], { type: 'image/jpeg' });
+                    // console.log('test image', URL.createObjectURL(imageBlob))
+                    setImageURL(response.data)
+                })
+                .catch((error) => enqueueSnackbar((error), { variant: 'error' }))
+        }
 
     }, [])
 

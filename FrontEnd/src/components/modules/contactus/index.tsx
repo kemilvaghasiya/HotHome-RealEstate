@@ -34,7 +34,7 @@ const ContactUsWrapper = () => {
                 subject: data.get('subject'),
                 message: data.get('message')
             }
-            console.log(reqBody);
+            // console.log(reqBody);
 
             // const res: any = await axios.post('http://localhost:5000/signup', reqBody)
             // if (isStatusOk(res.status) && res) {

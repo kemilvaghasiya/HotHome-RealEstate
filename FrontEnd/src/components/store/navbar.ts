@@ -11,6 +11,8 @@ export default class NavBarStore {
 
   rootStore: IRootStore;
 
+  refretchProjectData:boolean=false;
+
   constructor(rootStore: IRootStore) {
     makeObservable(this, {
       drawerOpen: observable,
@@ -19,6 +21,10 @@ export default class NavBarStore {
       getdrawerOpen: computed,
       setDrawerOpen: action,
       setTabSelected: action,
+      //
+      refretchProjectData:observable,
+      getRefetchProjectData:computed,
+      setRefetchProjectData:action
     });
     this.rootStore = rootStore;
   }
@@ -37,5 +43,13 @@ export default class NavBarStore {
 
   get getdrawerOpen() {
     return this.drawerOpen;
+  }
+
+  get getRefetchProjectData(){
+    return this.refretchProjectData
+  }
+
+  setRefetchProjectData =(value:boolean)=>{
+    this.refretchProjectData=value;
   }
 }

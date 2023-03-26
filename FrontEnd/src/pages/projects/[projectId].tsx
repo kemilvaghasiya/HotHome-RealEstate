@@ -41,7 +41,7 @@ const ProjectDetails = () => {
     useEffect(()=>{
       if(id){
         axios.get(`http://localhost:5000/get-property/${id}`)
-          .then(res => setProjectDetailsData(res.data))
+          .then(res => setProjectDetailsData(res.data.property))
            .catch((error:any) => enqueueSnackbar((error.message), { variant: 'error' }))
       }
     },[id])

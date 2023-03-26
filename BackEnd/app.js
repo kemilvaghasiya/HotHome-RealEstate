@@ -12,8 +12,11 @@ var storage = multer.memoryStorage();
 var upload_storage = multer({ storage: storage });
 var upload = multer({ storage });
 const app = express();
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '100mb' }));
+app.use(bodyParser.urlencoded({ limit: '100mb', extended: true }));
+app.use(express.json());
 
 const enableCors = (req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -131,6 +134,7 @@ app.post("/login", async (req, res) => {
 app.post("/register-properties", upload.any("images"), async (req, res) => {
   const propertyData = req.body;
   const files = req.files;
+  console.log(req.files)
   if (!propertyData.propertyName) {
     return res.status(400).json({ message: "propertyName is required." });
   }

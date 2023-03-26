@@ -17,14 +17,16 @@ export default function ProjectCard({data}:any) {
     const [imageData,setImageData]=React.useState('')
     const { enqueueSnackbar } = useSnackbar();
     React.useEffect(()=>{
-        axios.get(`http://localhost:5000/get-property-images/${data.image[0]}`, {
-        })
-            .then(response =>{
-                const imageBlob = new Blob([response.data.imageData], { type: 'image/jpeg' });
-                // console.log('test image', URL.createObjectURL(imageBlob))
-                setImageData(response.data)
-        })
-            .catch((error) => enqueueSnackbar((error.message), { variant: 'error' }))
+        if(data.image?.length){
+            axios.get(`http://localhost:5000/get-property-images/${data.image[0]}`, {
+            })
+                .then(response =>{
+                    const imageBlob = new Blob([response.data.imageData], { type: 'image/jpeg' });
+                    // console.log('test image', URL.createObjectURL(imageBlob))
+                    setImageData(response.data)
+            })
+                .catch((error) => enqueueSnackbar((error.message), { variant: 'error' }))
+        }
 
     },[])
     return (
