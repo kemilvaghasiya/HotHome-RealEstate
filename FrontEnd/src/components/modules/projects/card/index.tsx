@@ -24,7 +24,7 @@ export default function ProjectCard({data}:any) {
                 // console.log('test image', URL.createObjectURL(imageBlob))
                 setImageData(response.data)
         })
-            .catch((error) => enqueueSnackbar((error), { variant: 'error' }))
+            .catch((error) => enqueueSnackbar((error.message), { variant: 'error' }))
 
     },[])
     return (

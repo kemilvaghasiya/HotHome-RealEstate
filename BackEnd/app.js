@@ -154,41 +154,54 @@ app.post("/register-properties", upload.any("images"), async (req, res) => {
   }
 
   try {
-  const property = new Property(propertyData);
-  await property.save();
+    const property = new Property(propertyData);
+    await property.save();
 
-  const imageIds = [];
+    const imageIds = [];
 
-  for (let file of files) {
-    const imageData = new Image({
-      fileName: file.originalname,
-      fileType: file.mimetype,
-      fileSize: file.size,
-      imageData: file.buffer,
-      propertyId: property._id,
-    });
-    const images = new Image(imageData);
-    await images.save();
-    imageIds.push(images._id);
-  }
-  await Property.findOneAndUpdate(
-    { _id: property._id },
-    { image: imageIds },
-    { new: true }
-  );
+    for (let file of files) {
+      const imageData = new Image({
+        fileName: file.originalname,
+        fileType: file.mimetype,
+        fileSize: file.size,
+        imageData: file.buffer,
+        propertyId: property._id,
+      });
+      const images = new Image(imageData);
+      await images.save();
+      imageIds.push(images._id);
+    }
+    await Property.findOneAndUpdate(
+      { _id: property._id },
+      { image: imageIds },
+      { new: true }
+    );
 
-  res.send(property);
-  } catch(err) {
+    res.send(property);
+  } catch (err) {
     console.log(err)
   }
 });
 
-app.get("/get-property/:id",async(req,res)=> {
+app.get("/get-property/:id", async (req, res) => {
   const id = req.params.id;
   try {
-    const property = await Property.find({_id: id});
-    res.send(property);
-  } catch(err) {
+    const property = await Property.find({ _id: id });
+    const images = property[0].image
+    let dataURL = []
+    // console.log(images.length)
+    for(let i=0;i<images.length;i++) {
+    const [image] = await Image.find({ _id: images[i] });
+
+    const buffer = Buffer.from(image.imageData);
+    const base64Image = buffer.toString('base64');
+    const publicUrl = `data:image/png;base64,${base64Image}`;
+    dataURL.push({'dataURL': publicUrl})
+    }
+    // console.log(dataURL)
+    property.image = dataURL
+    res.send({property,images: dataURL});
+  } catch (err) {
     console.log(err)
     return res.status(500).json({ message: "Internal server error." });
   }
@@ -289,10 +302,10 @@ app.post("/add-userNotification", async (req, res) => {
   } catch (err) {
     console.log(err)
   }
-  
+
 })
 
-app.get("/get-userNotification", async (req,res) => {
+app.get("/get-userNotification", async (req, res) => {
   try {
     const userData = await UserNotification.find({});
     res.send(userData);

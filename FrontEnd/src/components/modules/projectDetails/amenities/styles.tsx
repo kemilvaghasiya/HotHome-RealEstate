@@ -39,7 +39,7 @@ const useStyles = makeStyles()(() => (
 
         },
         list:{
-            display:'grid',
+            display:'content',
             gridTemplateColumns:'auto auto auto auto',
             marginTop:10,
         }
