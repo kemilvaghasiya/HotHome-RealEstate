@@ -32,18 +32,23 @@ const EditProperty = ({data}:any) => {
     const propertyData=data?.property[0];
     const { classes } = useStyles();
     const [images, setImages] = React.useState<any>([]);
+
+    React.useEffect(()=>{
+        console.log('test refetch', images)
+    },[images])
    
     React.useEffect(()=>{
         // setImages([]);
         if(data && data.images){
-            // setImages([]);
-            let convertedImages =   data.images.map(async (image: any, index: number) => {
+            
+            setImages([]);
+             data.images.map(async (image: any, index: number) => {
                 const result = await convertToFile(image.dataURL, index).then(res=>res)
                 setImages((oldstate:Array<any>)=>{
                     let  updatedState=[...oldstate];
                     let Available=false;
                     updatedState.map((imageInfo)=>{
-                        if(imageInfo.data_url===image.data_url){
+                        if((imageInfo.data_url===image.data_url) || (imageInfo.file.name ===result.name)){
                             imageInfo = { data_url: image.dataURL, file: result }
                             Available=true;
                         }
@@ -117,7 +122,7 @@ const EditProperty = ({data}:any) => {
                           <ThemeProvider theme={theme}>
                               <div style={{ padding: '30px 0px' }}>
 
-                                  <Container component="main" maxWidth="xs" >
+                                  <Container component="main" maxWidth="lg" >
                                       <CssBaseline />
                                       <Box
                                           sx={{
