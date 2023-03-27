@@ -17,7 +17,7 @@ export default function ProjectCard({data}:any) {
     const [imageData,setImageData]=React.useState('')
     const { enqueueSnackbar } = useSnackbar();
     React.useEffect(()=>{
-        if(data.image?.length){
+        if(data?.image?.length){
             axios.get(`http://localhost:5000/get-property-images/${data.image[0]}`, {
             })
                 .then(response =>{
@@ -31,7 +31,7 @@ export default function ProjectCard({data}:any) {
     },[])
     return (
         <Card sx={{ maxWidth: 345 }} style={{ margin: 20, borderRadius: 10, boxShadow:'0px 0px 8px rgba(0, 0, 0, 0.4)'}}>
-            <CardMedia
+          <CardMedia
                 component="img"
                 alt="image"
                 height="250"
@@ -39,23 +39,25 @@ export default function ProjectCard({data}:any) {
             />
             
             {/* <img src={imageData} alt="API Response Image" /> */}
-            <CardContent>
-                <Typography gutterBottom variant="h5" component="div" className={classes.cardTitle}>
-                    {data.propertyName}
-                </Typography>
+            {
+                data && <CardContent>
+                    <Typography gutterBottom variant="h5" component="div" className={classes.cardTitle}>
+                        {data.propertyName}
+                    </Typography>
 
-                <Typography variant='body1' component="div" className={classes.cardLocation}>
-                    {data.address}
-                </Typography>
-                <Typography variant="body2" color="text.secondary" className={classes.info}>
-                    < HotelIcon />
-                    <span style={{ marginLeft: 10, marginTop: 3 }}>{`${data.noOfBedrooms} BHK Aprtment`}</span>
-                </Typography>
-                <Typography variant="body2" color="text.secondary" className={classes.info}>
-                    <span style={{fontWeight:500}}>Price -</span>
-                    <span style={{ marginLeft: 10 }}>{`${data.price} $`}</span>
-                </Typography>
-            </CardContent>
+                    <Typography variant='body1' component="div" className={classes.cardLocation}>
+                        {data.address}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" className={classes.info}>
+                        < HotelIcon />
+                        <span style={{ marginLeft: 10, marginTop: 3 }}>{`${data.noOfBedrooms} BHK Aprtment`}</span>
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" className={classes.info}>
+                        <span style={{ fontWeight: 500 }}>Price -</span>
+                        <span style={{ marginLeft: 10 }}>{`${data.price} $`}</span>
+                    </Typography>
+                </CardContent>
+           } 
             <CardActions>
                 {/* <Button size="small">Share</Button> */}
                 <Button size="small" onClick={() => router.push(`/projects/${data?._id}`)}>View In Detail</Button>

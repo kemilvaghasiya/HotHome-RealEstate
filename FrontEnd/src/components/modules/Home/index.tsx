@@ -2,6 +2,8 @@ import { LinearProgress } from '@mui/material';
 import { observer } from 'mobx-react-lite'
 import dynamic from 'next/dynamic';
 import React from 'react'
+import ProjectCard from './components/projectcard';
+import AboutHotHome from './components/aboutusintro';
 import { CarouselComp } from './components/carousel'
 import DetailKPI from './components/detailkpi';
 import useStyles from './styles';
@@ -22,7 +24,9 @@ const index = observer(() => {
   return (
     <div className={classes.root}>
           <CarouselComp />
+          <AboutHotHome />
           < DetailKPI />
+          < ProjectCard />
           <Footer />
     </div>
   )
