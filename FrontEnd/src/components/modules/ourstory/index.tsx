@@ -2,6 +2,8 @@ import Footer from '@/components/footer';
 import React from 'react'
 import HappyClients from './components/clients';
 import LetsTalk from './components/letstalk';
+import OurValues from './components/ourvalues';
+import VisionMission from './components/visionmission';
 import useStyles from './styles';
 
 const OurStory = () => {
@@ -19,6 +21,8 @@ const OurStory = () => {
         </div>
       </div>
       < HappyClients />
+      < OurValues />
+      < VisionMission />
       <LetsTalk />
       <Footer></Footer>
     </div>
