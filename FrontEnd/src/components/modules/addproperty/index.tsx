@@ -18,6 +18,8 @@ import { isStatusOk } from '@/api/utils';
 import { useRouter } from 'next/router';
 import useStyles from './styles';
 import { ImageUploadWrapper } from './imageupload';
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { useState } from 'react';
 
 const theme = createTheme();
 
@@ -26,6 +28,7 @@ const AddProperty = () => {
     const [images, setImages] = React.useState<any>([]);
     const { enqueueSnackbar } = useSnackbar();
     const router = useRouter();
+    const [transition, setTransaction] = useState('');
     const handleSubmit = async (event: any) => {
         event.preventDefault();
         const data:any = new FormData(event.currentTarget);
@@ -46,6 +49,7 @@ const AddProperty = () => {
         formData.append('floorPlan', data.get('floorPlan'))
         formData.append('pincode', data.get('pincode'))
         formData.append('price', data.get('price'))
+        formData.append('transactionType', transition)
         formData.append('noOfBedrooms', data.get('noOfBedrooms'))
         for(let i=0;i<images.length;i++){
             formData.append('images', images[i].file)
@@ -202,6 +206,23 @@ const AddProperty = () => {
                                                   //   minRows={4}
                                                   //   inputProps={{ minLength: 8 }}
                                                   />
+                                              </Grid>
+                                              <Grid item xs={12}>
+                                                  <FormControl fullWidth>
+
+                                                      <InputLabel id="demo-simple-select-label">Transaction Type</InputLabel>
+                                                      <Select
+                                                          labelId="demo-simple-select-label"
+                                                          id="demo-simple-select"
+                                                          //   value={age}
+                                                          label="Age"
+                                                          onChange={(event: any) => setTransaction(event.target.value)}
+                                                      >
+                                                          <MenuItem value={"For Sale"}>For Sale</MenuItem>
+                                                          <MenuItem value={'For Rent'}>For Rent</MenuItem>
+                                                          {/* <MenuItem value={30}>Thirty</MenuItem> */}
+                                                      </Select>
+                                                  </FormControl>
                                               </Grid>
                                               <Grid item xs={12}>
 

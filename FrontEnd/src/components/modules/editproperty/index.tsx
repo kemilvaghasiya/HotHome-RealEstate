@@ -19,6 +19,8 @@ import { useRouter } from 'next/router';
 import useStyles from './styles';
 import { ImageUploadWrapper } from './imageupload';
 import DynamicComponentLoader from '@/components/common/loader/dynemicComploader';
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { useState } from 'react';
 
 const theme = createTheme();
 
@@ -66,6 +68,7 @@ const EditProperty = ({data}:any) => {
     },[data])
     const { enqueueSnackbar } = useSnackbar();
     const router = useRouter();
+    const [transition, setTransaction]=useState('');
     const handleSubmit = async (event: any) => {
         event.preventDefault();
         const data:any = new FormData(event.currentTarget);
@@ -75,6 +78,7 @@ const EditProperty = ({data}:any) => {
             noOfUnits: data.get('noOfUnits'),
             floorPlan: data.get('floorPlan'),
             pincode: data.get('pincode'),
+            transactionType: transition,
             price: data.get('price'),
             noOfBedrooms: data.get('noOfBedrooms'),
             images:images
@@ -86,6 +90,7 @@ const EditProperty = ({data}:any) => {
         formData.append('floorPlan', data.get('floorPlan'))
         formData.append('pincode', data.get('pincode'))
         formData.append('price', data.get('price'))
+        formData.append('transactionType', transition)
         formData.append('noOfBedrooms', data.get('noOfBedrooms'))
         for(let i=0;i<images.length;i++){
             formData.append('images', images[i].file)
@@ -202,6 +207,24 @@ const EditProperty = ({data}:any) => {
                                                           autoComplete="off"
                                                           defaultValue={propertyData?.noOfBedrooms}
                                                       />
+                                                  </Grid>
+                                                  <Grid item xs={12}>
+                                                      <FormControl fullWidth>
+                                                        
+                                                          <InputLabel id="demo-simple-select-label">Transaction Type</InputLabel>
+                                                          <Select
+                                                              labelId="demo-simple-select-label"
+                                                              id="demo-simple-select"
+                                                            //   value={age}
+                                                              defaultValue={propertyData?.transactionType}
+                                                              label="Age"
+                                                              onChange={(event:any)=>setTransaction(event.target.value)}
+                                                          >
+                                                              <MenuItem value={"For Sale"}>For Sale</MenuItem>
+                                                              <MenuItem value={'For Rent'}>For Rent</MenuItem>
+                                                              {/* <MenuItem value={30}>Thirty</MenuItem> */}
+                                                          </Select>
+                                                      </FormControl>
                                                   </Grid>
                                                   <Grid item xs={12}>
                                                       <TextField

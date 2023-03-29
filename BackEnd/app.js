@@ -64,6 +64,7 @@ const propertySchema = new mongoose.Schema({
   pincode: Number,
   price: Number,
   noOfBedrooms: Number,
+  transactionType: String,
   image: [{ type: Schema.Types.ObjectId, ref: "Image" }],
 });
 

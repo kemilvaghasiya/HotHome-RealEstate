@@ -80,6 +80,37 @@ const useStyles = makeStyles()(() => (
                 gridTemplateColumns: 'auto',
             }
 
+        },
+        searchFilter:{
+            display:'flex',
+            justifyContent:'space-evenly',
+            margin: '10px 20px',
+            "@media (max-width: 800px)": {
+                // background: "red",
+                // marginLeft: 60,
+                // width: '60%',
+                // gridTemplateColumns: 'auto',
+                flexDirection:'column'
+            }
+
+        },
+        selectFilter: {
+            display: 'flex',
+            justifyContent: 'space-evenly',
+            margin:'10px 20px',
+            "@media (max-width: 800px)": {
+                // background: "red",
+                // marginLeft: 60,
+                // width: '60%',
+                // gridTemplateColumns: 'auto',
+                flexDirection: 'column',
+                alignItems:'center',
+            }
+        },
+         searchButton: {
+            display: 'flex',
+            justifyContent: 'center',
+            margin: '10px 20px'
         }
     }));
 
