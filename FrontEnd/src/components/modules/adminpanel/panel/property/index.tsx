@@ -25,7 +25,7 @@ const PropertyDetails = () => {
     // }
   }, [])
   useEffect(() => {
-    console.log('test refretch',getRefetchProjectData)
+    // console.log('test refretch',getRefetchProjectData)
     if (getRefetchProjectData === true) {
       axios.get('http://localhost:5000/get-all-properties')
         .then(res => setProjectData(res.data))

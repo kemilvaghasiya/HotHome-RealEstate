@@ -35,9 +35,9 @@ const EditProperty = ({data}:any) => {
     const { classes } = useStyles();
     const [images, setImages] = React.useState<any>([]);
 
-    React.useEffect(()=>{
-        console.log('test refetch', images)
-    },[images])
+    // React.useEffect(()=>{
+    //     console.log('test refetch', images)
+    // },[images])
    
     React.useEffect(()=>{
         // setImages([]);

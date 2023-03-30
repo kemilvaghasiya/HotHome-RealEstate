@@ -94,7 +94,11 @@ function EnhancedTableToolbar(props: any) {
                                 <TableCell align="right">{row.noOfBedrooms}BHK</TableCell>
                                 <TableCell align="right">{row.floorPlan }</TableCell>
                                 <TableCell align="right">
-                                    <EditIcon onClick={()=>router.push(`/editproperty/${row._id}`)} className={classes.editIcon}/>
+                                    <EditIcon onClick={()=>{
+                                        // console.log('test pushing')
+                                        router.push(`/editproperty/${row._id}`);
+                                        }} className={classes.editIcon}/>
+
                                     < DeleteIcon onClick={() => DeleteHandler(row._id)} className={classes.deleteIcon}/>
 
                                 </TableCell>

@@ -23,7 +23,25 @@ import clsx from 'clsx';
 
 
 
-const pages = ['Home', 'Our Story', 'Services','Get in Touch',];
+const pages = [
+    {
+        label: 'Home',
+        path: '/'
+    },
+    {
+        label: 'Our Story',
+        path: '/aboutus'
+    },
+    {
+        label: 'Services',
+        path: '/projects'
+    },
+    {
+        label: 'Get in Touch',
+        path: '/contactus'
+    }
+
+]
 
 const pages1=[
     {
@@ -120,7 +138,7 @@ function Navbar() {
                         }}
                         // className={classes.logo}
                     >
-                        <img src='/images/logo.png' style={{height:65,width:90}}></img>
+                        <img src='/images/logo.png' style={{height:55,width:70}}></img>
                     </Typography>
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -152,13 +170,21 @@ function Navbar() {
                                 display: { xs: 'block', md: 'none' },
                             }}
                         >
-                            {pages1.map((page) => (
+                            {session.status === "authenticated"? pages1.map((page) => (
                                 <MenuItem key={page.label} onClick={()=>handleCloseNavMenu(page)}>
                                     <Typography textAlign="center" className={clsx({
                                         [classes.selctedTab]:router.pathname===`${page.path}`
                                     })}>{page.label}</Typography>
                                 </MenuItem>
-                            ))}
+                            )):
+                                pages.map((page) => (
+                                    <MenuItem key={page.label} onClick={() => handleCloseNavMenu(page)}>
+                                        <Typography textAlign="center" className={clsx({
+                                            [classes.selctedTab]: router.pathname === `${page.path}`
+                                        })}>{page.label}</Typography>
+                                    </MenuItem>
+                                ))    
+                            }
                         </Menu>
                     </Box>
                     <Typography
@@ -178,10 +204,10 @@ function Navbar() {
                             textDecoration: 'none',
                         }}
                     >
-                        <img src='/images/logo.png' style={{ height: 50 }}></img>
+                        <img src='/images/logo.png' style={{height:55,width:70}}></img>
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex',justifyContent:'center' } }}>
-                        {pages1.map((page) => (
+                        {session.status === "authenticated"?pages1.map((page) => (
                             <Button
                                 key={page.label}
                                 onClick={()=>handleCloseNavMenu(page)}
@@ -192,7 +218,20 @@ function Navbar() {
                             >
                                 {page.label}
                             </Button>
-                        ))}
+                        )):
+                            pages.map((page) => (
+                                <Button
+                                    key={page.label}
+                                    onClick={() => handleCloseNavMenu(page)}
+                                    sx={{ my: 2, color: 'white', display: 'block' }}
+                                    className={clsx({
+                                        [classes.selctedTab]: router.pathname === `${page.path}`
+                                    })}
+                                >
+                                    {page.label}
+                                </Button>
+                            ))
+                        }
                     </Box>
 
                     {session.status === "authenticated"?<Box sx={{ flexGrow: 0 }}>

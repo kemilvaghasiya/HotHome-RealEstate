@@ -39,7 +39,7 @@ const AboutUs = () => {
     const { enqueueSnackbar } = useSnackbar();
     useEffect(() => {
         if (id) {
-            console.log('test id',id)
+            // console.log('test id',id)
             axios.get(`http://localhost:5000/get-property/${id}`)
                 .then(res => setProjectDetailsData(res.data))
                 .catch((error: any) => enqueueSnackbar((error.message), { variant: 'error' }))
