@@ -44,6 +44,10 @@ const ProjectHighlights = ({data}:any) => {
           <span className={classes.value}>Apartment</span>
         </div>
         <div className={classes.item}>
+          <span className={classes.label}>Transaction Type</span>
+          <span className={classes.value}>{data.transactionType}</span>
+        </div>
+        <div className={classes.item}>
           <span className={classes.label}>Total Units</span>
           <span className={classes.value}>{data.noOfUnits}</span>
         </div>
