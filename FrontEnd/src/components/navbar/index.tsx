@@ -120,7 +120,7 @@ function Navbar() {
                         }}
                         // className={classes.logo}
                     >
-                        HotHome Inc.
+                        <img src='/images/logo.png' style={{height:65,width:90}}></img>
                     </Typography>
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -178,7 +178,7 @@ function Navbar() {
                             textDecoration: 'none',
                         }}
                     >
-                        HotHome Inc.
+                        <img src='/images/logo.png' style={{ height: 50 }}></img>
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex',justifyContent:'center' } }}>
                         {pages1.map((page) => (

@@ -5,10 +5,11 @@ const useStyles = makeStyles()(() => (
         root: {
             display: 'flex',
             height: '380px',
-            width: 'calc(100%-10px)',
+            width: 'calc(100%-20px)',
             background: 'grey',
-            margin:5,
-            borderRadius:5
+            margin:10,
+            borderRadius:5,
+            boxShadow: '0px 0px 8px rgba(0, 0, 0, 0.4)',
         },
         wrapper:{
             backgroundColor: 'rgba(0,17,30,0.7)',

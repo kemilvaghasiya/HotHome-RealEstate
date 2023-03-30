@@ -7,6 +7,7 @@ import AboutHotHome from './components/aboutusintro';
 import { CarouselComp } from './components/carousel'
 import DetailKPI from './components/detailkpi';
 import useStyles from './styles';
+import Gallery from './components/projectgallery';
 const Footer = dynamic(() => import('../../footer'), {
     ssr: false,
     loading: () => (
@@ -26,6 +27,7 @@ const index = observer(() => {
           <CarouselComp />
           <AboutHotHome />
           < DetailKPI />
+          < Gallery />
           < ProjectCard />
           <Footer />
     </div>
