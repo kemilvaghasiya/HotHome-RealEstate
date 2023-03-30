@@ -12,12 +12,14 @@ import useStyles from './styles';
 const ProjectWrapper = () => {
     const { classes } = useStyles();
     const [projectData,setProjectData]=useState<any>();
+    const [filterdProjectData,setFilteedProjectData]=useState<any>();
     const [projectName,setProjectName]=useState('');
     const [minValue,setMinValue]=useState('');
     const[maxValue,setMaxValue]=useState('');
     const {enqueueSnackbar}=useSnackbar();
     const [bedRoom, setBedRoom] = React.useState('');
     const [transactionType, setTransactionType]=useState( '')
+    const [length,setLength]=useState();
 
     const handleChange = (event: any) => {
         setBedRoom(event.target.value);
@@ -25,9 +27,43 @@ const ProjectWrapper = () => {
 
     useEffect(()=>{
         axios.get('http://localhost:5000/get-all-properties')
-        .then(res=>setProjectData(res.data))
+            .then(res => { setProjectData(res.data); setFilteedProjectData(res.data); setLength(res.data?.length)})
             .catch((error) => enqueueSnackbar((error.message), { variant: 'error' }))
     },[])
+
+    const searchHandler=()=>{
+        if (minValue && maxValue && Number(minValue)>Number(maxValue)){
+            enqueueSnackbar(('minValue can not exceed then maxValue'), { variant: 'warning' })
+        }
+        // setFilteedProjectData([]);
+        let originalData=JSON.parse( JSON.stringify(projectData));
+        originalData= originalData?.filter((data:any)=>{
+            let filterd=true;
+            if (projectName && !data.propertyName.includes(projectName)){
+                filterd=false;
+            }
+            if (bedRoom && !(data.noOfBedrooms===bedRoom)){
+                filterd= false;
+            }
+            if (transactionType && !(data?.transactionType===transactionType)){
+                filterd= false;
+            }
+            if(minValue && maxValue && !(data.price >=Number(minValue) && data.price<=Number(maxValue)) ){
+                filterd=false;
+            } 
+
+            if(minValue && !(data.price>=Number(minValue))){
+               
+                filterd=false;
+            }
+            if(maxValue && !(data.price<=Number(maxValue))){
+                 filterd= false;
+            }
+            return filterd
+        })
+        setLength(originalData?.length)
+        setFilteedProjectData(originalData)
+    }
 
     const clearHandler=()=>{
         setProjectName('');
@@ -35,8 +71,9 @@ const ProjectWrapper = () => {
         setMaxValue( '');
         setMinValue('');
         setTransactionType('');
+        setLength(projectData?.length)
+        setFilteedProjectData(projectData)
     }
-    // console.log('test',projectName)
     return (
         <div className={classes.root}>
             <div className={classes.comproot} style={{
@@ -96,7 +133,7 @@ const ProjectWrapper = () => {
                 </Box>
                 </div>
                 <div className={classes.searchButton}>
-                    <Button variant='contained' >Search</Button>
+                    <Button variant='contained' onClick={searchHandler} >Search</Button>
                     <Button variant='contained' style={{backgroundColor:'red',marginLeft:30}} onClick={clearHandler} >Clear</Button>
                 </div>
             </div>
@@ -110,12 +147,13 @@ const ProjectWrapper = () => {
                 < ProjectCard />
                 < ProjectCard /> */}
                 {
-                    projectData?
-                    projectData.map((data:any)=>{
-                        return(
-                            < ProjectCard data={data}/> 
-                        )
-                    }):<DynamicComponentLoader />
+                    filterdProjectData ?
+                        length !== 0 ? filterdProjectData.map((data: any) => {
+                            return (
+                                < ProjectCard data={data} />
+                            )
+                        }):(<div style={{color:'black'}}>No Data Available for applied Filters</div>)
+                        :<DynamicComponentLoader />
                 }
             </div>
             <Footer></Footer>
