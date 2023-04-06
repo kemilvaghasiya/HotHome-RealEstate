@@ -170,7 +170,7 @@ function Navbar() {
                                 display: { xs: 'block', md: 'none' },
                             }}
                         >
-                            {session.status === "authenticated" && session.data.user.user.userRole !== 'admin' ? pages1.map((page) => (
+                            {session.status === "authenticated" && session.data.user.user.userRole === 'admin' ? pages1.map((page) => (
                                 <MenuItem key={page.label} onClick={()=>handleCloseNavMenu(page)}>
                                     <Typography textAlign="center" className={clsx({
                                         [classes.selctedTab]:router.pathname===`${page.path}`
@@ -207,7 +207,7 @@ function Navbar() {
                         <img src='/images/logo.png' style={{height:55,width:70}}></img>
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex',justifyContent:'center' } }}>
-                        {session.status === "authenticated" && session.data.user.user.userRole !== 'admin' ?pages1.map((page) => (
+                        {session.status === "authenticated" && session.data.user.user.userRole === 'admin' ?pages1.map((page) => (
                             <Button
                                 key={page.label}
                                 onClick={()=>handleCloseNavMenu(page)}
