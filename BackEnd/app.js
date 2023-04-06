@@ -240,14 +240,36 @@ app.get("/get-all-properties", async (req, res) => {
 });
 
 //update proeperty by id
-app.put("/update-property/:id", async (req, res) => {
+app.put("/update-property/:id",upload.any("images"), async (req, res) => {
   if (!req.params.id) {
     return res.status(400).json({ message: "id params is required." });
   }
   try {
+    const files = req.files;
     const property = await Property.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
     });
+
+    const imageIds = [];
+
+    for (let file of files) {
+      const imageData = new Image({
+        fileName: file.originalname,
+        fileType: file.mimetype,
+        fileSize: file.size,
+        imageData: file.buffer,
+        propertyId: property._id,
+      });
+      const images = new Image(imageData);
+      await images.save();
+      imageIds.push(images._id);
+    }
+    await Property.findOneAndUpdate(
+      { _id: property._id },
+      { image: imageIds },
+      { new: true }
+    );
+
     res.send(property);
   } catch (err) {
     console.log(err);
